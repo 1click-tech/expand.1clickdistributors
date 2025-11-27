@@ -15,7 +15,12 @@ export default function RootLayout({ children }) {
         className={`antialiased`}
       >
         {children}
-        <Toaster position="top-center" reverseOrder={false} />
+          <Toaster
+          position="top-center"
+          toastOptions={{
+            style: { zIndex: 999999999 },
+          }}
+        />  
       </body>
     </html>
   );

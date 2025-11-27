@@ -19,6 +19,7 @@ import { Rnd } from "react-rnd";
 import { statusFilters, getClientStatus } from "@/app/utills/filters";
 import { Funnel } from "lucide-react";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { Toaster } from "react-hot-toast";
 
 const Services = () => {
   const [errors, setErrors] = useState({});
@@ -287,8 +288,7 @@ const Services = () => {
       {
         Header: "Service Expire Date",
         accessor: "serviceExpireDate",
-        className: "min-w-[130px] max-w-[240px]",
-      },
+        className: "min-w-[130px] max-w-[240px]",},
       { Header: "Sales Executive", accessor: "salesExecutive" },
       { Header: "Service", accessor: "servicePlan" },
       { Header: "Sales Amount", accessor: "salesAmount" },
@@ -489,6 +489,7 @@ const Services = () => {
           }}
           className="absolute bg-white shadow-[0_10px_40px_rgba(0,0,0,0.25)] border border-gray-200"
         >
+           <Toaster position="top-center" />
           {/* Header */}
           <div className="drag-header cursor-move bg-linear-to-r from-[#FE681C] to-[#FF8744] text-white px-5 py-3.5 rounded-t-xl flex justify-between items-center select-none shadow-lg">
             <div className="flex items-center gap-2">
