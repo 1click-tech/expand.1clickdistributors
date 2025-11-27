@@ -19,7 +19,6 @@ import { Rnd } from "react-rnd";
 import { statusFilters, getClientStatus } from "@/app/utills/filters";
 import { Funnel } from "lucide-react";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
-import { Toaster } from "react-hot-toast";
 
 const Services = () => {
   const [errors, setErrors] = useState({});
@@ -79,6 +78,9 @@ const Services = () => {
     setSelectedImages((prev) => prev.filter((_, i) => i !== index));
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const inputError = (field) =>
+    errors[field] ? "border-red-500" : "border-gray-300";
 
   const formatOnlyDate = (dateStr) => {
     if (!dateStr) return "";
@@ -169,7 +171,7 @@ const Services = () => {
       };
       await setDoc(doc(db, "clients", newClientId), finalData);
       fetchClients();
-      toast.success("Client Saved Successfully! ID: " + newClientId);
+      toast.success("Client Saved Successfully ID: " + newClientId);
       setOpenForms((prev) => prev.filter((f) => f.id !== formId));
     } catch (error) {
       console.error("Error saving client:", error);
@@ -204,11 +206,9 @@ const Services = () => {
     try {
       const folderRef = ref(storage, `ClientsImages/${docId}`);
       const result = await listAll(folderRef);
-
       const urls = await Promise.all(
         result.items.map((item) => getDownloadURL(item))
       );
-
       return urls.slice(0, 50);
     } catch (error) {
       console.warn(`No images found for ${docId}:`, error);
@@ -288,7 +288,8 @@ const Services = () => {
       {
         Header: "Service Expire Date",
         accessor: "serviceExpireDate",
-        className: "min-w-[130px] max-w-[240px]",},
+        className: "min-w-[130px] max-w-[240px]",
+      },
       { Header: "Sales Executive", accessor: "salesExecutive" },
       { Header: "Service", accessor: "servicePlan" },
       { Header: "Sales Amount", accessor: "salesAmount" },
@@ -483,13 +484,12 @@ const Services = () => {
             right: true,
           }}
           style={{
-            zIndex: form.id,
+            zIndex: 1000,
             borderRadius: "14px",
             backdropFilter: "blur(10px)",
           }}
           className="absolute bg-white shadow-[0_10px_40px_rgba(0,0,0,0.25)] border border-gray-200"
         >
-           <Toaster position="top-center" />
           {/* Header */}
           <div className="drag-header cursor-move bg-linear-to-r from-[#FE681C] to-[#FF8744] text-white px-5 py-3.5 rounded-t-xl flex justify-between items-center select-none shadow-lg">
             <div className="flex items-center gap-2">
@@ -566,6 +566,9 @@ const Services = () => {
                     className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring"
                     placeholder="Enter Mobile number"
                   />
+                  {errors.mobile && (
+                    <p className="text-red-500 text-xs mt-1">{errors.mobile}</p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -581,6 +584,9 @@ const Services = () => {
                     className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring"
                     placeholder="Enter email address"
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
                 </div>
 
                 {/* City */}
@@ -596,6 +602,9 @@ const Services = () => {
                     className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring"
                     placeholder="Enter city"
                   />
+                  {errors.city && (
+                    <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                  )}
                 </div>
               </div>
 
@@ -617,6 +626,11 @@ const Services = () => {
                     className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring"
                     placeholder="Enter company name"
                   />
+                  {errors.companyName && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.companyName}
+                    </p>
+                  )}
                 </div>
 
                 {/* Brand Name */}
@@ -649,6 +663,11 @@ const Services = () => {
                     className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring"
                     placeholder="Enter company address"
                   />
+                  {errors.companyAddress && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.companyAddress}
+                    </p>
+                  )}
                 </div>
 
                 {/* Pin Code */}
@@ -799,7 +818,6 @@ const Services = () => {
                 </div>
 
                 {/* Service Tenure */}
-                {/* Service Tenure */}
                 <div className="mb-1">
                   <label className="block text-gray-700 font-semibold mb-2">
                     Service Tenure: <span className="text-red-500">*</span>
@@ -809,7 +827,11 @@ const Services = () => {
                     name="serviceTenure"
                     value={formData.serviceTenure}
                     onChange={handleTenureChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring"
+                    className={`w-full px-3 py-1 border rounded-md focus:outline-none focus:ring ${
+                      errors.serviceTenure
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
                   >
                     <option value="">Select Tenure</option>
                     <option value="1 Months">1 Month</option>
@@ -818,6 +840,12 @@ const Services = () => {
                     <option value="6 Months">6 Months</option>
                     <option value="12 Months">12 Months</option>
                   </select>
+
+                  {errors.serviceTenure && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.serviceTenure}
+                    </p>
+                  )}
                 </div>
 
                 {/* Activation Date */}
