@@ -201,22 +201,24 @@ const ManageUsers = () => {
 
       {/* POPUP FORM MODAL */}
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50  z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative animate-[fadeIn_0.3s_ease]">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-3">
+          <div
+            className="bg-white rounded-xl shadow-lg w-full max-w-md relative animate-[fadeIn_0.3s_ease] max-h-[90vh] overflow-y-auto p-4"
+          >
             <button
               className="absolute top-3 right-3 text-gray-600 hover:text-red-600 cursor-pointer"
               onClick={() => setShowForm(false)}
             >
               <MdClose size={24} />
             </button>
-            <h2 className="text-2xl font-semibold mb-4">Create User Account</h2>
+            <h2 className="text-2xl font-semibold mb-3">Create User Account</h2>
             {/* FORM */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3">
               <div>
                 <label className="block mb-1 font-medium">Enter Name</label>
                 <input
                   type="text"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-1 border rounded-lg"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -226,7 +228,7 @@ const ManageUsers = () => {
                 <label className="block mb-1 font-medium">Enter Email</label>
                 <input
                   type="email"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-1 border rounded-lg"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -238,7 +240,7 @@ const ManageUsers = () => {
                 </label>
                 <input
                   type="text"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-1 border rounded-lg"
                   value={employeeId}
                   onChange={(e) => setEmployeeId(e.target.value)}
                   required
@@ -250,7 +252,7 @@ const ManageUsers = () => {
                 </label>
                 <input
                   type="tel"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-1 border rounded-lg"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
@@ -260,7 +262,7 @@ const ManageUsers = () => {
                 <label className="block mb-1 font-medium">Enter Password</label>
                 <input
                   type="password"
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-1 border rounded-lg"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -271,7 +273,7 @@ const ManageUsers = () => {
                   Select User Role
                 </label>
                 <select
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full p-1 border rounded-lg"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   required
@@ -297,7 +299,7 @@ const ManageUsers = () => {
 
       {/* USERS TABLE */}
       <div className="mt-4">
-        <CustomTable columns={columns} data={users} searchValue={searchValue}  />
+        <CustomTable columns={columns} data={users} searchValue={searchValue} />
       </div>
     </div>
   );
