@@ -9,11 +9,14 @@ import { BsGraphUp } from "react-icons/bs";
 import { TbSettingsCog } from "react-icons/tb";
 import Image from "next/image";
 import { Users } from "lucide-react";
+import { Network } from "lucide-react";
 
-export default function CRMHeader({ onModuleChange }) {
+export default function CRMHeader({ onModuleChange, selected }) {
   const router = useRouter();
   const [showSidebar, setShowSidebar] = useState(false);
   const [role, setRole] = useState("");
+    let d6521f = { color: selected ? "#fff" : "#d6521f", fontSize: 22 };
+
 
   useEffect(() => {
     const r = localStorage.getItem("role");
@@ -31,9 +34,9 @@ export default function CRMHeader({ onModuleChange }) {
 
   return (
     <>
-      {/* HEADER */}
-      <header className="bg-[#e0f0fb] fixed top-0 left-0 w-full z-50 px-2 py-1 flex justify-between items-center shadow-sm">
-        {/* LEFT Side */}
+      {/* header */}
+      <header className="bg-[#d7efff] fixed top-0 left-0 w-full z-50 px-2 py-1 flex justify-between items-center shadow-sm">
+        {/* left Side */}
         <div className="flex items-center gap-0">
           <button
             onClick={() => setShowSidebar(!showSidebar)}
@@ -61,7 +64,7 @@ export default function CRMHeader({ onModuleChange }) {
           </button>
         </div>
 
-        {/* RIGHT: Logout */}
+        {/* Logout button */}
         <div className="flex items-center gap-4">
           <button
             onClick={handleLogout}
@@ -72,9 +75,9 @@ export default function CRMHeader({ onModuleChange }) {
         </div>
       </header>
 
-      {/* SIDEBAR */}
+      {/* sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-58 bg-white shadow-lg z-40 transform transition-transform duration-300 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -89,48 +92,61 @@ export default function CRMHeader({ onModuleChange }) {
           />
         </div>
 
-        {/* MENU ITEMS */}
-        <ul className="mt-4 px-4 space-y-2 text-gray-700 font-medium">
+        {/* menu items */}
+        <ul className=" text-gray-600 font-medium">
           {/* Dashboard */}
           <li
-            className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-[#f56219]/10 hover:text-[#ec5a11] transition-all"
+            className="flex items-center gap-4 p-3 cursor-pointer hover:bg-gray-300  transition-all border-b border-gray-300 hover:border-gray-400"
             onClick={() => {
               onModuleChange("board");
               setShowSidebar(false);
             }}
           >
-            <MdDashboard className="text-xl" />
+            <img src="/Dashboard.png" alt="distributor icon" className="h-5 w-5"/>
             <span>Dashboard</span>
           </li>
 
+          {/* Distributor Management */}
+          <li
+            className="flex items-center gap-4 p-3 cursor-pointer hover:bg-gray-300 border-b border-gray-300 hover:border-gray-400 transition-all"
+            onClick={() => {
+              onModuleChange("dashboard");
+              setShowSidebar(false);
+            }}
+          >
+            <img src="/distributor.png" alt="distributor icon" className="h-5 w-5"/>
+            <span>Distributor Management</span>
+          </li>
+
+
           {/* Service Activation Panel */}
           <li
-            className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-[#f56219]/10 hover:text-[#f56219] transition-all"
+            className="flex items-center gap-4 p-3 cursor-pointer hover:bg-gray-300 border-b border-gray-300 hover:border-gray-400 transition-all"
             onClick={() => {
               onModuleChange("service-management");
               setShowSidebar(false);
             }}
           >
-            <FaUserCog className="text-xl" />
+            <img src="/service.png" alt="distributor icon" className="h-5 w-5"/>
             <span>Service Management</span>
           </li>
 
           {/* Manage Users */}
           {role === "admin" && (
             <li
-              className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-[#f56219]/10 hover:text-[#f56219] transition-all"
+              className="flex items-center gap-4 p-3  cursor-pointer hover:bg-gray-300 border-b border-gray-300 hover:border-gray-400 transition-all"
               onClick={() => {
                 onModuleChange("manage-users");
                 setShowSidebar(false);
               }}
             >
-              <Users className="text-xl" />
+            <img src="/hrms.png" alt="service icon" className="h-5 w-5"/>
               <span>Manage Users</span>
             </li>
           )}
         </ul>
 
-        {/* BOTTOM LOGO */}
+        {/* bottom logo */}
         <div className="absolute bottom-4 left-0 w-full flex justify-center">
           <img
             src="/flatLogo.png"

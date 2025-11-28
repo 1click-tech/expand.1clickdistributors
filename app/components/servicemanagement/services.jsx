@@ -5,6 +5,8 @@ import { Image as ImageIcon } from "lucide-react";
 import CustomTable from "../../utills/customTable";
 import { Settings } from "lucide-react";
 import { db, storage } from "@/lib/firebase";
+import { deleteDoc } from "firebase/firestore";
+
 import {
   collection,
   setDoc,
@@ -38,6 +40,7 @@ const Services = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [allClients, setAllClients] = useState([]);
+  const [role, setRole] = useState("");
 
   const [formData, setFormData] = useState({
     contactPerson: "",
@@ -65,6 +68,43 @@ const Services = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  // Set user role from localStorage
+  useEffect(() => {
+    const r = localStorage.getItem("role");
+    setRole(r);
+  }, []);
+
+  // Delete selected clients
+  const handleDelete = async () => {
+    if (role !== "admin") {
+      toast.error("Only admin can delete records.");
+      return;
+    }
+
+    if (selectedRows.length === 0) {
+      toast.error("Please select at least one record.");
+      return;
+    }
+
+    const confirmDelete = confirm(
+      `Delete ${selectedRows.length} selected record(s)?`
+    );
+    if (!confirmDelete) return;
+
+    try {
+      for (const id of selectedRows) {
+        await deleteDoc(doc(db, "clients", id));
+      }
+
+      toast.success("Deleted successfully");
+      fetchClients();
+      setSelectedRows([]);
+    } catch (err) {
+      console.error("Delete failed:", err);
+      toast.error("Failed to delete");
+    }
   };
 
   const handleImageChange = (e) => {
@@ -233,7 +273,7 @@ const Services = () => {
           return client;
         })
       );
-
+      data.forEach((item) => (item.select = false));
       setAllClients(data);
       setFilteredData(data);
       setLoading(false);
@@ -251,6 +291,50 @@ const Services = () => {
 
   const columns = useMemo(
     () => [
+      {
+  Header: () => (
+    <div className="flex items-center gap-1">
+      <input
+        type="checkbox"
+        checked={
+          selectedRows.length > 0 &&
+          selectedRows.length === filteredData.length
+        }
+        onChange={(e) => {
+          if (e.target.checked) {
+            setSelectedRows(filteredData.map((c) => c.docId));
+          } else {
+            setSelectedRows([]);
+          }
+        }}
+      />
+      <span className="text-xs font-semibold">Select</span>
+    </div>
+  ),
+  accessor: "select",
+  disableSortBy: true,
+
+  Cell: ({ row }) => {
+    const id = row.original.docId;
+
+    return (
+      <input
+        type="checkbox"
+        checked={selectedRows.includes(id)}
+        onChange={() => {
+          setSelectedRows((prev) =>
+            prev.includes(id)
+              ? prev.filter((x) => x !== id)
+              : [...prev, id]
+          );
+        }}
+      />
+    );
+  },
+
+  width: 50,
+},
+
       {
         Header: "Profile ID",
         accessor: "docId",
@@ -418,10 +502,21 @@ const Services = () => {
 
         <button
           onClick={() => setShowSettings(true)}
-          className="p-2 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 transition flex items-center justify-center shadow-sm"
+          className="p-2 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 transition flex items-center justify-center shadow-sm cursor-pointer"
         >
-          <Settings className="w-4 h-4 text-gray-700 cursor-pointer" />
+          <Settings className="w-4 h-4 text-gray-700 " />
         </button>
+
+        {/* delete service button */}
+
+        {role === "admin" && (
+          <button
+            onClick={handleDelete}
+            className="p-2 w-16 h-8 rounded-md text-white bg-red-500 cursor-pointer transition flex items-center justify-center shadow-sm hover:bg-red-600 active:scale-95"
+          >
+            Delete
+          </button>
+        )}
 
         {/* Funnel Button */}
         <button
@@ -922,6 +1017,8 @@ const Services = () => {
           columns={filteredColumns}
           searchValue={searchValue}
           loading={loading}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
         />
       ) : (
         <p className="text-gray-500 text-center mt-10">

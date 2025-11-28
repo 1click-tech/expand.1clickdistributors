@@ -14,5 +14,7 @@ export default function Home() {
     }
   }, [router]);
 
-  return <div className="text-center mt-20">Redirecting...</div>;
+  return(
+     <div className="text-center mt-20">Redirecting...</div>
+  );
 }

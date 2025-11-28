@@ -53,12 +53,9 @@ export default function DistributorLogin() {
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
               expandico<span className="text-red-500">|</span>One
             </h1>
-            <h2 className="text-xl font-semibold text-gray-700 mt-4">
+             <h2 className="text-xl font-semibold text-gray-700 mt-4">
               Welcome to 1Clickdistributors
             </h2>
-            <p className="text-gray-500 text-sm mt-1">
-              "Today is your best Day"
-            </p>
           </div>
 
           {error && (
@@ -67,7 +64,7 @@ export default function DistributorLogin() {
             </div>
           )}
 
-          {/* FORM */}
+          {/* form  */}
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <input

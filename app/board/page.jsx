@@ -12,17 +12,20 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
-        {/* Header gets the handler */}
+        {/* Header with handler */}
         <CRMHeader onModuleChange={setModule} />
 
         <main className="pt-[45px]">
-          {/* DEFAULT DASHBOARD CONTENT */}
-          {module === "board" && <DataTable />}
+          {/* defaults dashboard content */}
+          {module === "board"}
 
-          {/* SERVICE MANAGEMENT CONTENT */}
+           {/* distributor MGMT content */}
+          {module === "dashboard" && <DataTable />}
+
+          {/* service management content*/}
           {module === "service-management" && <Service />}
 
-          {/* SERVICE MANAGEMENT CONTENT */}
+          {/* manage users content */}
           {module === "manage-users" && <ManageUser />}
         </main>
       </div>

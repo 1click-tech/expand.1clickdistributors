@@ -211,11 +211,11 @@ const ManageUsers = () => {
             >
               <MdClose size={24} />
             </button>
-            <h2 className="text-2xl font-semibold mb-3">Create User Account</h2>
+            <h2 className="text-2xl text-center text-gray-800 font-semibold mb-3">Create User Account</h2>
             {/* FORM */}
             <form onSubmit={handleSubmit} className="space-y-3">
               <div>
-                <label className="block mb-1 font-medium">Enter Name</label>
+                <label className="block mb-1 font-medium text-gray-700">Enter Name</label>
                 <input
                   type="text"
                   className="w-full p-1 border rounded-lg"
@@ -225,7 +225,7 @@ const ManageUsers = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium">Enter Email</label>
+                <label className="block mb-1 font-medium text-gray-700">Enter Email</label>
                 <input
                   type="email"
                   className="w-full p-1 border rounded-lg"
@@ -235,7 +235,7 @@ const ManageUsers = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium">
+                <label className="block mb-1 font-medium text-gray-700">
                   Enter Employee ID
                 </label>
                 <input
@@ -247,7 +247,7 @@ const ManageUsers = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium">
+                <label className="block mb-1 font-medium text-gray-700">
                   Enter Phone Number
                 </label>
                 <input
@@ -259,7 +259,7 @@ const ManageUsers = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium">Enter Password</label>
+                <label className="block mb-1 font-medium text-gray-700">Enter Password</label>
                 <input
                   type="password"
                   className="w-full p-1 border rounded-lg"
@@ -269,11 +269,11 @@ const ManageUsers = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium">
+                <label className="block mb-1 font-medium text-gray-700">
                   Select User Role
                 </label>
                 <select
-                  className="w-full p-1 border rounded-lg"
+                  className="w-full p-1 border rounded-lg text-gray-700"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   required
